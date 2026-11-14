@@ -45,9 +45,10 @@ html,body{height:100%;background:#000;overflow:hidden}
 #s2 h1{font-family:var(--mono);font-weight:700;font-size:150px;line-height:1.02;letter-spacing:-.03em}
 #s2 .role{font-family:var(--mono);font-size:50px;color:var(--green);margin-top:26px;min-height:64px}
 .cards{display:flex;gap:40px;margin-top:70px}
-.card{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:40px 44px}
+.card{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 38px}
 .card .t{font-family:var(--mono);font-size:24px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
-.card .v{font-size:60px;font-weight:700;margin-top:16px;letter-spacing:-.02em}
+.card.hot{border-color:var(--green)} .card.hot .v{color:var(--green)}
+.card .v{font-size:54px;font-weight:700;margin-top:16px;letter-spacing:-.02em}
 .card .d{font-size:30px;color:var(--muted);margin-top:12px;line-height:1.35}
 
 /* S3 */
@@ -83,6 +84,7 @@ html,body{height:100%;background:#000;overflow:hidden}
 .leg div{display:flex;align-items:center;gap:16px;font-size:28px;color:var(--muted)}
 .leg b{font-family:var(--mono);color:var(--text);min-width:76px;text-align:right}
 .leg s{width:20px;height:20px;border-radius:4px;flex:none}
+#s5 .find .pct{font-family:var(--mono);font-size:44px}
 #s5 .find{margin-top:36px;padding:26px 32px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:10px;background:var(--card);font-size:32px;line-height:1.35}
 
 /* S6 */
@@ -90,9 +92,13 @@ html,body{height:100%;background:#000;overflow:hidden}
 #s6 .q{font-size:104px;font-weight:700;letter-spacing:-.03em;line-height:1.08}
 #cta{position:absolute;inset:0;padding:110px 130px 170px;display:flex;flex-direction:column;justify-content:center}
 #cta .h{font-size:92px;font-weight:700;letter-spacing:-.03em;line-height:1.08}
-#cta .wa{display:inline-flex;align-items:center;gap:26px;margin-top:56px;background:var(--green);color:#09090b;border-radius:16px;padding:30px 46px;font-family:var(--mono);font-weight:700;font-size:54px;align-self:flex-start}
+#cta .wa{display:inline-flex;align-items:center;gap:26px;margin-top:50px;background:var(--green);color:#09090b;border-radius:16px;padding:30px 46px;font-family:var(--mono);font-weight:700;font-size:64px;align-self:flex-start}
 #cta .wa svg{width:60px;height:60px}
-#cta .sig{margin-top:50px;font-family:var(--mono);font-size:34px;color:var(--muted)}
+#cta .brand{position:absolute;left:130px;right:130px;bottom:70px;display:flex;align-items:center;gap:26px;font-family:var(--mono);font-size:30px;line-height:1.4;color:var(--muted);border-top:1px solid var(--line);padding-top:34px}
+#cta .brand svg{width:64px;height:64px;color:var(--green);flex:none}
+#cta .brand b{color:var(--text);font-size:36px}
+#cta .brand .tel{margin-left:auto;color:var(--text);font-size:36px}
+#cta .sig{margin-top:36px;font-family:var(--mono);font-size:34px;color:var(--muted)}
 #cta .sig b{color:var(--text);font-weight:700}
 </style>
 </head>
@@ -105,7 +111,7 @@ html,body{height:100%;background:#000;overflow:hidden}
     <div class="label" data-in=".2"><b>&gt;_</b> caso real · concesionaria · cliente confidencial</div>
     <div class="row">
       <div class="stat" data-in=".5" data-dim="5.0">
-        <div class="n" data-count="1601" data-cd="1.1">0</div><div class="k">leads en el CRM</div>
+        <div class="n" data-count="1601" data-cd="1.1">0</div><div class="k">leads en el sistema</div>
       </div>
       <div class="arrow" data-in="1.7" data-dim="5.0">→</div>
       <div class="stat" data-in="1.9" data-dim="5.0">
@@ -123,13 +129,17 @@ html,body{height:100%;background:#000;overflow:hidden}
   <!-- S2 · Quién -->
   <section class="scene" id="s2" data-in="10" data-out="25">
     <h1 data-type="10.4" data-ts="1.0">David Español</h1>
-    <div class="role" data-type="11.6" data-ts="1.6">Analista y científico de datos</div>
+    <div class="role" data-type="11.4" data-ts="2.0">Programador, analista y científico de datos</div>
     <div class="cards">
       <div class="card" data-in="14.2">
+        <div class="t">Programador</div><div class="v">4 años</div>
+        <div class="d">Construyendo soluciones de software y datos.</div>
+      </div>
+      <div class="card hot" data-in="16.4">
         <div class="t">Sistema bancario</div><div class="v">+2 años</div>
         <div class="d">Donde un número mal calculado cuesta caro.</div>
       </div>
-      <div class="card" data-in="20.0">
+      <div class="card" data-in="21.0">
         <div class="t">Consejo Profesional de Ciencias Económicas</div><div class="v">Capacito equipos</div>
         <div class="d">Datos e inteligencia artificial aplicados al trabajo diario.</div>
       </div>
@@ -172,7 +182,7 @@ html,body{height:100%;background:#000;overflow:hidden}
           <div class="hd" data-count="789" data-cd="1.6">0</div>
           <div class="hk">movimientos de un banco, en un mes.<br>45 páginas de extracto, revisadas a mano.</div>
         </div>
-        <div data-in="66.0" style="position:absolute;top:calc(50% - 300px)">
+        <div data-in="66.0" style="position:absolute;top:calc(50% - 300px);width:690px">
           <div class="hd green" data-count="24" data-cd=".9">0</div>
           <div class="hk">para revisar por una persona</div>
           <div class="leg">
@@ -181,7 +191,7 @@ html,body{height:100%;background:#000;overflow:hidden}
             <div><s style="background:#1d4a8f"></s><b>57</b>situaciones ya conocidas</div>
             <div><s style="background:var(--green)"></s><b>24</b>para revisar</div>
           </div>
-          <div class="find" data-in="69.6">Y encontró <b>2 cheques</b> cargados con <b class="green">$10</b> y <b class="green">$20</b> de diferencia.</div>
+          <div class="find" data-in="69.6">Una persona revisa solo el <b class="green pct">3%</b> de los movimientos: 24 de 789.</div>
         </div>
       </div>
     </div>
@@ -191,16 +201,18 @@ html,body{height:100%;background:#000;overflow:hidden}
   <section class="scene" id="s6" data-in="74" data-out="88.6">
     <div data-out="79.0">
       <div class="q" data-in="74.4">La inteligencia artificial<br>no es magia.</div>
-      <div class="q green" data-in="76.8">Es análisis bien hecho.</div>
+      <div class="q green" data-in="76.8">Son datos, modelos y método.</div>
     </div>
     <div id="cta">
       <div class="label" data-in="79.3"><b>&gt;_</b> diagnóstico</div>
       <div class="h" data-in="79.5" style="margin-top:26px">¿Qué esconden los datos<br>de tu empresa?</div>
-      <div class="wa" data-in="82.0">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.7A8.4 8.4 0 1 1 21 11.5z"/></svg>
-        +54 9 380 429-7959
+      <div class="wa" data-in="82.0">davidespanol.com <span style="font-weight:400">→</span></div>
+      <div class="sig" data-in="83.4">30 minutos de diagnóstico · sin costo</div>
+      <div class="brand" data-in="84.6">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+        <div><b>David Español</b><br>Software · Data · Automation</div>
+        <div class="tel">+54 9 380 429-7959</div>
       </div>
-      <div class="sig" data-in="84.2">30 minutos de diagnóstico · sin costo<br><b>David Español</b> · davidespanol.com</div>
     </div>
   </section>
 
@@ -212,12 +224,13 @@ html,body{height:100%;background:#000;overflow:hidden}
 <script>
 const DURATION = 88.6, FPS = 30;
 const CAPTIONS = [
-  [0.3, 4.9, "En el CRM de una concesionaria había más de cien mil dólares dormidos."],
+  [0.3, 4.9, "En el sistema de una concesionaria había más de cien mil dólares dormidos."],
   [5.1, 6.7, "Nadie los veía."],
   [6.9, 9.7, "Estaban en los datos."],
-  [10.3, 14.0, "Soy David Español, analista y científico de datos."],
-  [14.2, 19.8, "Hace más de dos años trabajo en el sistema bancario, donde un número mal calculado cuesta caro."],
-  [20.0, 24.7, "Y capacito equipos en el Consejo Profesional de Ciencias Económicas."],
+  [10.3, 14.0, "Soy David Español: programador, analista y científico de datos."],
+  [14.2, 16.2, "Programo hace cuatro años."],
+  [16.4, 20.8, "Y hace más de dos trabajo en el sistema bancario, donde un número mal calculado cuesta caro."],
+  [21.0, 24.7, "Y capacito equipos en el Consejo Profesional de Ciencias Económicas."],
   [25.3, 31.6, "Tu empresa también tiene esos datos: en planillas, en el sistema de gestión, en el banco."],
   [31.9, 36.6, "Lo que falta es leerlos con método."],
   [37.3, 38.8, "Trabajo en cuatro pasos."],
@@ -227,9 +240,9 @@ const CAPTIONS = [
   [52.5, 57.6, "Y adopción: capacito a tu equipo para que lo use sin depender de mí."],
   [58.3, 65.5, "En una empresa, conciliar un solo banco era revisar a mano 789 movimientos: cuarenta y cinco páginas de extracto."],
   [65.8, 69.4, "En la primera prueba con sus archivos reales, el sistema dejó veinticuatro para revisar."],
-  [69.6, 73.7, "Y encontró dos cheques cargados con diez y veinte pesos de diferencia."],
-  [74.3, 78.8, "La inteligencia artificial no es magia: es análisis bien hecho."],
-  [79.3, 83.9, "Si querés saber qué esconden los datos de tu empresa, escribime por WhatsApp."],
+  [69.6, 73.7, "Una persona revisa solo el tres por ciento de los movimientos."],
+  [74.3, 78.8, "La inteligencia artificial no es magia: son datos, modelos y método."],
+  [79.3, 83.9, "Si querés saber qué esconden los datos de tu empresa, entrá a davidespanol.com."],
   [84.2, 87.8, "Treinta minutos de diagnóstico, sin costo."]
 ];
 const $ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -331,7 +344,7 @@ function seek(t) {
 
   const c = CAPTIONS.find(c => t >= c[0] && t <= c[1]);
   const cc = document.getElementById("cc");
-  cc.textContent = params.get("cc") === "0" || !c ? "" : c[2];
+  cc.textContent = params.get("cc") === "0" || !c || t > 84 ? "" : c[2];
   document.getElementById("logo").style.opacity = .9 * (1 - clamp((t - 78.8) / .4));
 }
 window.seek = seek; window.DURATION = DURATION; window.FPS = FPS;
