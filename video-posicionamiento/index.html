@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>David Español · Video de posicionamiento</title>
+<style>
+@font-face{font-family:Inter;font-weight:400;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:500;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:600;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:700;src:url(fonts/inter-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:400;src:url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:700;src:url(fonts/jetbrains-mono-latin-700-normal.woff2) format("woff2")}
+:root{
+  --bg:#09090b; --card:#121216; --line:#29292f; --text:#e6e6e6; --muted:#8c8c8c;
+  --green:#00ff00; --blue:#3c83f6; --dim:#3a3a42;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace; --sans:Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden}
+#grid{position:absolute;inset:-80px;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:80px 80px}
+#glow{position:absolute;width:1400px;height:1400px;border-radius:50%;background:radial-gradient(circle,#00ff0012 0,transparent 62%);left:0;top:0}
+.scene{position:absolute;inset:0;padding:110px 130px 170px;display:flex;flex-direction:column;opacity:0}
+.label{font-family:var(--mono);font-size:26px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.label b{color:var(--green);font-weight:400}
+.mono{font-family:var(--mono)}
+.green{color:var(--green)} .blue{color:var(--blue)} .muted{color:var(--muted)}
+#logo{position:absolute;left:130px;bottom:64px;font-family:var(--mono);font-weight:700;font-size:30px;color:var(--green)}
+#cc{position:absolute;left:300px;right:300px;bottom:54px;text-align:center;font-size:34px;line-height:1.35;font-weight:500;color:#fff;text-shadow:0 2px 12px #000}
+#bar{position:absolute;left:0;bottom:0;height:5px;background:var(--green);opacity:.7}
+
+/* S1 */
+#s1 .row{flex:1;display:flex;align-items:center;gap:56px;padding-bottom:150px}
+.stat{flex:1}
+.stat .n{font-family:var(--mono);font-weight:700;font-size:150px;line-height:1;letter-spacing:-.03em}
+.stat .k{margin-top:22px;font-size:34px;color:var(--muted)}
+.arrow{font-family:var(--mono);font-size:70px;color:var(--dim)}
+#s1 .big{font-size:76px;font-weight:600;letter-spacing:-.02em}
+.track{height:10px;background:var(--line);border-radius:5px;margin-top:34px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--blue);width:0}
+
+/* S2 */
+#s2{justify-content:center}
+#s2 h1{font-family:var(--mono);font-weight:700;font-size:150px;line-height:1.02;letter-spacing:-.03em}
+#s2 .role{font-family:var(--mono);font-size:50px;color:var(--green);margin-top:26px;min-height:64px}
+.cards{display:flex;gap:40px;margin-top:70px}
+.card{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:40px 44px}
+.card .t{font-family:var(--mono);font-size:24px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.card .v{font-size:60px;font-weight:700;margin-top:16px;letter-spacing:-.02em}
+.card .d{font-size:30px;color:var(--muted);margin-top:12px;line-height:1.35}
+
+/* S3 */
+#s3 h2,#s4 h2{font-size:80px;font-weight:600;letter-spacing:-.025em;margin-top:26px}
+#field{position:relative;flex:1;margin-top:50px}
+.tile{position:absolute;width:420px;height:290px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 34px;transform-origin:50% 50%}
+.tile .t{font-family:var(--mono);font-size:30px;color:var(--text)}
+.tile .rows{margin-top:22px;display:grid;gap:13px}
+.tile .rows i{display:block;height:11px;border-radius:6px;background:var(--line)}
+#chart{position:absolute;right:0;top:20px;width:520px;height:330px;display:flex;align-items:flex-end;gap:26px;border-bottom:2px solid var(--line)}
+#chart i{flex:1;background:var(--blue);border-radius:8px 8px 0 0;height:0}
+#chart i:last-child{background:var(--green)}
+#s3 .fin{position:absolute;left:0;bottom:0;font-size:60px;font-weight:600;letter-spacing:-.02em}
+
+/* S4 */
+#steps{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;align-content:center;position:relative}
+#rail{position:absolute;left:0;right:0;top:calc(50% - 150px);height:4px;background:var(--line)}
+#rail i{display:block;height:100%;width:0;background:var(--green)}
+.step{padding-top:0}
+.step .dot{width:30px;height:30px;border-radius:50%;background:var(--bg);border:4px solid var(--line);margin-top:-13px;position:relative}
+.step .no{font-family:var(--mono);font-size:28px;color:var(--muted);margin-top:44px}
+.step .nm{font-family:var(--mono);font-weight:700;font-size:58px;margin-top:10px;letter-spacing:-.02em}
+.step .ds{font-size:32px;line-height:1.35;color:var(--muted);margin-top:18px;max-width:380px}
+
+/* S5 */
+#s5 .wrap{flex:1;display:flex;gap:70px;align-items:center;margin-top:30px}
+#dots{display:grid;grid-template-columns:repeat(40,1fr);gap:8px;width:900px;flex:none}
+#dots i{display:block;aspect-ratio:1;border-radius:3px;background:var(--dim)}
+.side{flex:1}
+.side .hd{font-family:var(--mono);font-weight:700;font-size:120px;line-height:1;letter-spacing:-.03em}
+.side .hk{font-size:34px;color:var(--muted);margin-top:12px}
+.leg{display:grid;gap:18px;margin-top:40px}
+.leg div{display:flex;align-items:center;gap:16px;font-size:28px;color:var(--muted)}
+.leg b{font-family:var(--mono);color:var(--text);min-width:76px;text-align:right}
+.leg s{width:20px;height:20px;border-radius:4px;flex:none}
+#s5 .find{margin-top:36px;padding:26px 32px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:10px;background:var(--card);font-size:32px;line-height:1.35}
+
+/* S6 */
+#s6{justify-content:center}
+#s6 .q{font-size:104px;font-weight:700;letter-spacing:-.03em;line-height:1.08}
+#cta{position:absolute;inset:0;padding:110px 130px 170px;display:flex;flex-direction:column;justify-content:center}
+#cta .h{font-size:92px;font-weight:700;letter-spacing:-.03em;line-height:1.08}
+#cta .wa{display:inline-flex;align-items:center;gap:26px;margin-top:56px;background:var(--green);color:#09090b;border-radius:16px;padding:30px 46px;font-family:var(--mono);font-weight:700;font-size:54px;align-self:flex-start}
+#cta .wa svg{width:60px;height:60px}
+#cta .sig{margin-top:50px;font-family:var(--mono);font-size:34px;color:var(--muted)}
+#cta .sig b{color:var(--text);font-weight:700}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div><div id="glow"></div>
+
+  <!-- S1 · Gancho -->
+  <section class="scene" id="s1" data-in="0" data-out="10">
+    <div class="label" data-in=".2"><b>&gt;_</b> caso real · concesionaria · cliente confidencial</div>
+    <div class="row">
+      <div class="stat" data-in=".5" data-dim="5.0">
+        <div class="n" data-count="1601" data-cd="1.1">0</div><div class="k">leads en el CRM</div>
+      </div>
+      <div class="arrow" data-in="1.7" data-dim="5.0">→</div>
+      <div class="stat" data-in="1.9" data-dim="5.0">
+        <div class="n" data-count="876" data-cd="1.1">0</div><div class="k">sin seguimiento real</div>
+      </div>
+      <div class="arrow" data-in="3.1" data-dim="5.0">→</div>
+      <div class="stat" data-in="3.3" style="flex:1.5">
+        <div class="n green" data-count="100000" data-cd="1.3" data-pre="+USD ">0</div><div class="k">dormidos</div>
+      </div>
+    </div>
+    <div class="big" data-in="5.2" data-out="6.7"><span class="muted">Nadie los veía.</span></div>
+    <div class="big" data-in="7.0" style="position:absolute;left:130px;bottom:170px">Estaban en los datos.</div>
+  </section>
+
+  <!-- S2 · Quién -->
+  <section class="scene" id="s2" data-in="10" data-out="25">
+    <h1 data-type="10.4" data-ts="1.0">David Español</h1>
+    <div class="role" data-type="11.6" data-ts="1.6">Analista y científico de datos</div>
+    <div class="cards">
+      <div class="card" data-in="14.2">
+        <div class="t">Sistema bancario</div><div class="v">+2 años</div>
+        <div class="d">Donde un número mal calculado cuesta caro.</div>
+      </div>
+      <div class="card" data-in="20.0">
+        <div class="t">Consejo Profesional de Ciencias Económicas</div><div class="v">Capacito equipos</div>
+        <div class="d">Datos e inteligencia artificial aplicados al trabajo diario.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3 · Tu empresa -->
+  <section class="scene" id="s3" data-in="25" data-out="37">
+    <div class="label" data-in="25.2"><b>&gt;_</b> tu empresa</div>
+    <h2 data-in="25.4">Tu empresa también tiene esos datos.</h2>
+    <div id="field">
+      <div class="tile" data-in="27.0"><div class="t">Planillas</div><div class="rows"><i style="width:90%"></i><i style="width:62%"></i><i style="width:78%"></i><i style="width:45%"></i><i style="width:70%"></i></div></div>
+      <div class="tile" data-in="27.9"><div class="t">Sistema de gestión</div><div class="rows"><i style="width:55%"></i><i style="width:88%"></i><i style="width:40%"></i><i style="width:74%"></i><i style="width:60%"></i></div></div>
+      <div class="tile" data-in="28.8"><div class="t">Banco</div><div class="rows"><i style="width:80%"></i><i style="width:50%"></i><i style="width:92%"></i><i style="width:66%"></i><i style="width:38%"></i></div></div>
+      <div id="chart" data-in="32.0" data-fx="fade"><i data-h="34"></i><i data-h="52"></i><i data-h="45"></i><i data-h="70"></i><i data-h="92"></i></div>
+      <div class="fin" data-in="32.6">Falta leerlos <span class="green">con método.</span></div>
+    </div>
+  </section>
+
+  <!-- S4 · Método -->
+  <section class="scene" id="s4" data-in="37" data-out="58">
+    <div class="label" data-in="37.2"><b>&gt;_</b> método</div>
+    <h2 data-in="37.4">Cuatro pasos.</h2>
+    <div id="steps">
+      <div id="rail"><i></i></div>
+      <div class="step" data-in="39.0" data-step="39.0"><div class="dot"></div><div class="no">01</div><div class="nm">Diagnóstico</div><div class="ds">Entiendo tu negocio antes de tocar una herramienta.</div></div>
+      <div class="step" data-in="44.0" data-step="44.0"><div class="dot"></div><div class="no">02</div><div class="nm">Datos</div><div class="ds">Ordeno lo que ya tenés.</div></div>
+      <div class="step" data-in="47.0" data-step="47.0"><div class="dot"></div><div class="no">03</div><div class="nm">Solución</div><div class="ds">Un tablero, una automatización o un modelo: lo que el problema pida.</div></div>
+      <div class="step" data-in="52.5" data-step="52.5"><div class="dot"></div><div class="no">04</div><div class="nm">Adopción</div><div class="ds">Capacito a tu equipo para que lo use sin depender de mí.</div></div>
+    </div>
+  </section>
+
+  <!-- S5 · Conciliación -->
+  <section class="scene" id="s5" data-in="58" data-out="74">
+    <div class="label" data-in="58.2"><b>&gt;_</b> caso real · conciliación bancaria · cliente confidencial</div>
+    <div class="wrap">
+      <div id="dots" data-in="58.5" data-fx="fade"></div>
+      <div class="side">
+        <div data-in="58.8" data-out="65.6">
+          <div class="hd" data-count="789" data-cd="1.6">0</div>
+          <div class="hk">movimientos de un banco, en un mes.<br>45 páginas de extracto, revisadas a mano.</div>
+        </div>
+        <div data-in="66.0" style="position:absolute;top:calc(50% - 300px)">
+          <div class="hd green" data-count="24" data-cd=".9">0</div>
+          <div class="hk">para revisar por una persona</div>
+          <div class="leg">
+            <div><s style="background:var(--dim)"></s><b>398</b>gastos bancarios, apartados por regla</div>
+            <div><s style="background:var(--blue)"></s><b>310</b>cruzados automáticamente</div>
+            <div><s style="background:#1d4a8f"></s><b>57</b>situaciones ya conocidas</div>
+            <div><s style="background:var(--green)"></s><b>24</b>para revisar</div>
+          </div>
+          <div class="find" data-in="69.6">Y encontró <b>2 cheques</b> cargados con <b class="green">$10</b> y <b class="green">$20</b> de diferencia.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S6 · Cierre -->
+  <section class="scene" id="s6" data-in="74" data-out="88.6">
+    <div data-out="79.0">
+      <div class="q" data-in="74.4">La inteligencia artificial<br>no es magia.</div>
+      <div class="q green" data-in="76.8">Es análisis bien hecho.</div>
+    </div>
+    <div id="cta">
+      <div class="label" data-in="79.3"><b>&gt;_</b> diagnóstico</div>
+      <div class="h" data-in="79.5" style="margin-top:26px">¿Qué esconden los datos<br>de tu empresa?</div>
+      <div class="wa" data-in="82.0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.7A8.4 8.4 0 1 1 21 11.5z"/></svg>
+        +54 9 380 429-7959
+      </div>
+      <div class="sig" data-in="84.2">30 minutos de diagnóstico · sin costo<br><b>David Español</b> · davidespanol.com</div>
+    </div>
+  </section>
+
+  <div id="logo">&lt;DE /&gt;</div>
+  <div id="cc"></div>
+  <div id="bar"></div>
+</div>
+
+<script>
+const DURATION = 88.6, FPS = 30;
+const CAPTIONS = [
+  [0.3, 4.9, "En el CRM de una concesionaria había más de cien mil dólares dormidos."],
+  [5.1, 6.7, "Nadie los veía."],
+  [6.9, 9.7, "Estaban en los datos."],
+  [10.3, 14.0, "Soy David Español, analista y científico de datos."],
+  [14.2, 19.8, "Hace más de dos años trabajo en el sistema bancario, donde un número mal calculado cuesta caro."],
+  [20.0, 24.7, "Y capacito equipos en el Consejo Profesional de Ciencias Económicas."],
+  [25.3, 31.6, "Tu empresa también tiene esos datos: en planillas, en el sistema de gestión, en el banco."],
+  [31.9, 36.6, "Lo que falta es leerlos con método."],
+  [37.3, 38.8, "Trabajo en cuatro pasos."],
+  [39.0, 43.8, "Diagnóstico: entiendo tu negocio antes de tocar una herramienta."],
+  [44.0, 46.8, "Datos: ordeno lo que ya tenés."],
+  [47.0, 52.3, "Solución: un tablero, una automatización o un modelo, lo que el problema pida."],
+  [52.5, 57.6, "Y adopción: capacito a tu equipo para que lo use sin depender de mí."],
+  [58.3, 65.5, "En una empresa, conciliar un solo banco era revisar a mano 789 movimientos: cuarenta y cinco páginas de extracto."],
+  [65.8, 69.4, "En la primera prueba con sus archivos reales, el sistema dejó veinticuatro para revisar."],
+  [69.6, 73.7, "Y encontró dos cheques cargados con diez y veinte pesos de diferencia."],
+  [74.3, 78.8, "La inteligencia artificial no es magia: es análisis bien hecho."],
+  [79.3, 83.9, "Si querés saber qué esconden los datos de tu empresa, escribime por WhatsApp."],
+  [84.2, 87.8, "Treinta minutos de diagnóstico, sin costo."]
+];
+const $ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = x => Math.max(0, Math.min(1, x));
+const ease = x => 1 - Math.pow(1 - clamp(x), 3);
+const io = x => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const fmt = n => Math.round(n).toLocaleString("es-AR").replace(/,/g, ".");
+const params = new URLSearchParams(location.search);
+
+// 789 puntos: 398 gastos, 310 cruzados, 57 conocidos, 24 para revisar
+const dots = document.getElementById("dots");
+const kinds = [];
+(() => {
+  const pool = [].concat(Array(398).fill(0), Array(310).fill(1), Array(57).fill(2), Array(24).fill(3));
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+  pool.forEach(k => { kinds.push(k); dots.appendChild(document.createElement("i")); });
+})();
+const dotEls = $("i", dots), DOTC = ["#3a3a42", "#3c83f6", "#1d4a8f", "#00ff00"];
+
+$("[data-type]").forEach(el => { el.dataset.full = el.textContent; });
+const tiles = $(".tile");
+const SCAT = [[60, 70, -9], [520, 10, 6], [330, 250, -4]], ALIGN = [[0, 30, 0], [362, 30, 0], [724, 30, 0]];
+
+function seek(t) {
+  // fondo
+  document.getElementById("glow").style.transform = `translate(${300 + 500 * Math.sin(t / 9)}px,${-400 + 250 * Math.cos(t / 11)}px)`;
+  document.getElementById("grid").style.transform = `translate(${-(t * 4) % 80}px,${-(t * 2) % 80}px)`;
+  document.getElementById("bar").style.width = (t / DURATION * 100) + "%";
+
+  $(".scene").forEach(s => {
+    const a = +s.dataset.in, b = +s.dataset.out;
+    s.style.opacity = clamp((t - a) / .4) * (1 - clamp((t - (b - .4)) / .4));
+    s.style.visibility = t >= a - .05 && t <= b ? "visible" : "hidden";
+  });
+
+  $("[data-in],[data-out]").forEach(el => {
+    if (el.classList.contains("scene")) return;
+    const p = el.dataset.in ? ease((t - el.dataset.in) / .7) : 1;
+    const q = el.dataset.out ? 1 - clamp((t - el.dataset.out) / .4) : 1;
+    let o = p * q;
+    if (el.dataset.dim) o *= 1 - .7 * clamp((t - el.dataset.dim) / .5);
+    el.style.opacity = o;
+    if (el.classList.contains("tile")) return;
+    el.style.transform = el.dataset.fx === "fade" ? "" : `translateY(${(1 - p) * 44}px)`;
+  });
+
+  $("[data-count]").forEach(el => {
+    const host = el.closest("[data-in]"), start = +host.dataset.in + .1;
+    const p = ease((t - start) / +el.dataset.cd);
+    el.textContent = (el.dataset.pre || "") + fmt(p * el.dataset.count);
+  });
+
+  $("[data-type]").forEach(el => {
+    const full = el.dataset.full, p = clamp((t - el.dataset.type) / el.dataset.ts);
+    const n = Math.floor(p * full.length);
+    const cur = t >= el.dataset.type && (p < 1 || Math.floor(t * 2) % 2 === 0) && el.classList.contains("role") ? "▌" : "";
+    el.textContent = full.slice(0, n) + cur;
+    el.style.opacity = t >= el.dataset.type ? 1 : 0;
+  });
+
+  // S3: fichas dispersas → ordenadas
+  const m = io((t - 30.6) / 1.4);
+  tiles.forEach((el, i) => {
+    const s = SCAT[i], a = ALIGN[i];
+    const x = s[0] + (a[0] - s[0]) * m, y = s[1] + (a[1] - s[1]) * m, r = s[2] * (1 - m);
+    const sc = 1 - .2 * m;
+    el.style.transformOrigin = "0 0";
+    el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${sc})`;
+  });
+  $("#chart i").forEach((b, i) => { b.style.height = (ease((t - 32.3 - i * .18) / .9) * b.dataset.h) + "%"; });
+
+  // S4: riel y pasos
+  const stepT = [39.0, 44.0, 47.0, 52.5];
+  let prog = 0;
+  stepT.forEach((s, i) => { prog = Math.max(prog, io((t - s + .7) / .9) * (i * .2555 + .012)); });
+  prog = Math.max(prog, .78 + .22 * io((t - 55.5) / 1.5) * (t > 55.5 ? 1 : 0));
+  if (t < 55.5) prog = Math.min(prog, .78);
+  document.querySelector("#rail i").style.width = (prog * 100) + "%";
+  $(".step").forEach((el, i) => {
+    const on = t >= stepT[i], cur = on && (i === 3 || t < stepT[i + 1]);
+    el.querySelector(".dot").style.borderColor = on ? "#00ff00" : "#29292f";
+    el.querySelector(".dot").style.background = cur ? "#00ff00" : "#09090b";
+    el.querySelector(".nm").style.color = cur ? "#00ff00" : "#e6e6e6";
+    if (on && !cur) el.style.opacity = .5;
+  });
+
+  // S5: barrido de colores
+  const sw = clamp((t - 65.6) / 2.6) * dotEls.length;
+  dotEls.forEach((d, i) => {
+    const k = kinds[i], on = i < sw;
+    d.style.background = on ? DOTC[k] : "#55555f";
+    d.style.opacity = on && k === 0 ? .55 : 1;
+    d.style.transform = on && k === 3 ? `scale(${1 + .35 * clamp((t - 68.4) / .5)})` : "";
+  });
+
+  // S6: cierre
+  document.getElementById("cta").style.opacity = clamp((t - 79.2) / .4);
+
+  const c = CAPTIONS.find(c => t >= c[0] && t <= c[1]);
+  const cc = document.getElementById("cc");
+  cc.textContent = params.get("cc") === "0" || !c ? "" : c[2];
+  document.getElementById("logo").style.opacity = .9 * (1 - clamp((t - 78.8) / .4));
+}
+window.seek = seek; window.DURATION = DURATION; window.FPS = FPS;
+
+function fit() {
+  const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+  document.getElementById("stage").style.transform = `scale(${s}) translate(-50%,-50%)`;
+}
+addEventListener("resize", fit); fit();
+
+if (params.has("render")) { seek(0); }
+else {
+  let t0 = performance.now() - (+params.get("t") || 0) * 1000, paused = false, tp = 0;
+  const loop = now => { if (!paused) { tp = ((now - t0) / 1000) % DURATION; seek(tp); } requestAnimationFrame(loop); };
+  addEventListener("click", () => { paused = !paused; if (!paused) t0 = performance.now() - tp * 1000; });
+  document.fonts.ready.then(() => requestAnimationFrame(loop));
+}
+</script>
+</body>
+</html>
