@@ -8,7 +8,7 @@ La locución está generada con la voz de David en ElevenLabs (`locucion.mp3`).
 | 0:00 | En el sistema de una concesionaria había más de cien mil dólares dormidos. |
 | 0:05 | Nadie los veía. |
 | 0:07 | Estaban en los datos. |
-| 0:10 | Soy David Español: programador, analista y científico de datos. |
+| 0:10 | Soy David Español. Programador, analista y científico de datos. |
 | 0:14 | Programo hace cuatro años. |
 | 0:16 | Y hace más de dos trabajo en el sistema bancario, donde un número mal calculado cuesta caro. |
 | 0:21 | Y capacito equipos en el Consejo Profesional de Ciencias Económicas. |
@@ -21,10 +21,10 @@ La locución está generada con la voz de David en ElevenLabs (`locucion.mp3`).
 | 0:52 | Y adopción: capacito a tu equipo para que lo use sin depender de mí. |
 | 0:58 | En una empresa, conciliar un solo banco era revisar a mano 789 movimientos: cuarenta y cinco páginas de extracto. |
 | 1:06 | En la primera prueba con sus archivos reales, el sistema dejó veinticuatro para revisar. |
-| 1:10 | Una persona revisa solo el tres por ciento de los movimientos. |
+| 1:12 | Ahora, una persona revisa solo el tres por ciento de los movimientos. |
 | 1:14 | La inteligencia artificial no es magia: son datos, modelos y método. |
-| 1:19 | Si querés saber qué esconden los datos de tu empresa, entrá a davidespanol.com. |
-| 1:24 | Treinta minutos de diagnóstico, sin costo. |
+| 1:22 | Si querés saber qué esconden los datos de tu empresa, pedí tu diagnóstico de treinta minutos, sin costo. |
+| 1:28 | Entrá a davidespanol.com. |
 
 ## De dónde sale cada número
 

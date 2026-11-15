@@ -98,7 +98,7 @@ html,body{height:100%;background:#000;overflow:hidden}
 #cta .brand svg{width:64px;height:64px;color:var(--green);flex:none}
 #cta .brand b{color:var(--text);font-size:36px}
 #cta .brand .tel{margin-left:auto;color:var(--text);font-size:36px}
-#cta .sig{margin-top:36px;font-family:var(--mono);font-size:34px;color:var(--muted)}
+#cta .sig{margin-top:40px;font-size:40px;color:var(--text);font-family:var(--mono);font-size:34px;color:var(--muted)}
 #cta .sig b{color:var(--text);font-weight:700}
 </style>
 </head>
@@ -173,7 +173,7 @@ html,body{height:100%;background:#000;overflow:hidden}
   </section>
 
   <!-- S5 · Conciliación -->
-  <section class="scene" id="s5" data-in="57" data-out="76">
+  <section class="scene" id="s5" data-in="57" data-out="76.5">
     <div class="label" data-in="57.2"><b>&gt;_</b> caso real · conciliación bancaria · cliente confidencial</div>
     <div class="wrap">
       <div id="dots" data-in="57.5" data-fx="fade"></div>
@@ -191,24 +191,24 @@ html,body{height:100%;background:#000;overflow:hidden}
             <div><s style="background:#1d4a8f"></s><b>57</b>situaciones ya conocidas</div>
             <div><s style="background:var(--green)"></s><b>24</b>para revisar</div>
           </div>
-          <div class="find" data-in="72.0">Una persona revisa solo el <b class="green pct">3%</b> de los movimientos: 24 de 789.</div>
+          <div class="find" data-in="72.0">Ahora una persona revisa solo el <b class="green pct">3%</b> de los movimientos: 24 de 789.</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- S6 · Cierre -->
-  <section class="scene" id="s6" data-in="76" data-out="90.6">
-    <div data-out="81.0">
-      <div class="q" data-in="76.4">La inteligencia artificial<br>no es magia.</div>
-      <div class="q green" data-in="78.8">Son datos, modelos y método.</div>
+  <section class="scene" id="s6" data-in="76.5" data-out="91.0">
+    <div data-out="81.6">
+      <div class="q" data-in="76.8">La inteligencia artificial<br>no es magia.</div>
+      <div class="q green" data-in="79.2">Son datos, modelos y método.</div>
     </div>
     <div id="cta">
-      <div class="label" data-in="81.3"><b>&gt;_</b> diagnóstico</div>
-      <div class="h" data-in="81.5" style="margin-top:26px">¿Qué esconden los datos<br>de tu empresa?</div>
-      <div class="wa" data-in="84.0">davidespanol.com <span style="font-weight:400">→</span></div>
-      <div class="sig" data-in="85.4">30 minutos de diagnóstico · sin costo</div>
-      <div class="brand" data-in="86.6">
+      <div class="label" data-in="81.9"><b>&gt;_</b> diagnóstico</div>
+      <div class="h" data-in="82.1" style="margin-top:26px">¿Qué esconden los datos<br>de tu empresa?</div>
+      <div class="sig" data-in="85.2">30 minutos de diagnóstico · sin costo</div>
+      <div class="wa" data-in="88.0">davidespanol.com <span style="font-weight:400">→</span></div>
+      <div class="brand" data-in="88.7">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
         <div><b>David Español</b><br>Software · Data · Automation</div>
         <div class="tel">+54 9 380 429-7959</div>
@@ -222,13 +222,13 @@ html,body{height:100%;background:#000;overflow:hidden}
 </div>
 
 <script>
-const DURATION = 90.6, FPS = 30;
+const DURATION = 91.0, FPS = 30;
 const CAPTIONS = [
   [0.3, 5.0, "En el sistema de una concesionaria había más de cien mil dólares dormidos."],
   [5.1, 6.3, "Nadie los veía."],
   [6.9, 8.5, "Estaban en los datos."],
-  [10.1, 14.3, "Soy David Español: programador, analista y científico de datos."],
-  [14.4, 16.3, "Programo hace cuatro años."],
+  [10.0, 14.4, "Soy David Español. Programador, analista y científico de datos."],
+  [14.5, 16.3, "Programo hace cuatro años."],
   [16.4, 21.1, "Y hace más de dos trabajo en el sistema bancario, donde un número mal calculado cuesta caro."],
   [21.2, 25.3, "Y capacito equipos en el Consejo Profesional de Ciencias Económicas."],
   [25.5, 30.9, "Tu empresa también tiene esos datos: en planillas, en el sistema de gestión, en el banco."],
@@ -240,10 +240,10 @@ const CAPTIONS = [
   [52.5, 56.6, "Y adopción: capacito a tu equipo para que lo use sin depender de mí."],
   [57.2, 66.3, "En una empresa, conciliar un solo banco era revisar a mano 789 movimientos: cuarenta y cinco páginas de extracto."],
   [66.4, 71.9, "En la primera prueba con sus archivos reales, el sistema dejó veinticuatro para revisar."],
-  [72.0, 75.8, "Una persona revisa solo el tres por ciento de los movimientos."],
-  [76.3, 81.4, "La inteligencia artificial no es magia: son datos, modelos y método."],
-  [81.5, 86.6, "Si querés saber qué esconden los datos de tu empresa, entrá a davidespanol.com."],
-  [86.7, 89.4, "Treinta minutos de diagnóstico, sin costo."]
+  [72.0, 76.5, "Ahora, una persona revisa solo el tres por ciento de los movimientos."],
+  [76.7, 81.8, "La inteligencia artificial no es magia: son datos, modelos y método."],
+  [81.9, 88.0, "Si querés saber qué esconden los datos de tu empresa, pedí tu diagnóstico de treinta minutos, sin costo."],
+  [88.1, 90.5, "Entrá a davidespanol.com."]
 ];
 const $ = (s, r = document) => [...r.querySelectorAll(s)];
 const clamp = x => Math.max(0, Math.min(1, x));
@@ -340,12 +340,12 @@ function seek(t) {
   });
 
   // S6: cierre
-  document.getElementById("cta").style.opacity = clamp((t - 81.2) / .4);
+  document.getElementById("cta").style.opacity = clamp((t - 81.8) / .4);
 
   const c = CAPTIONS.find(c => t >= c[0] && t <= c[1]);
   const cc = document.getElementById("cc");
-  cc.textContent = params.get("cc") === "0" || !c || t > 86.6 ? "" : c[2];
-  document.getElementById("logo").style.opacity = .9 * (1 - clamp((t - 80.8) / .4));
+  cc.textContent = params.get("cc") === "0" || !c || t > 88.0 ? "" : c[2];
+  document.getElementById("logo").style.opacity = .9 * (1 - clamp((t - 81.4) / .4));
 }
 window.seek = seek; window.DURATION = DURATION; window.FPS = FPS;
 
