@@ -1,7 +1,7 @@
-# Guion de locución · video madre (88 s, 1920×1080)
+# Guion de locución · video madre (90 s, 1920×1080)
 
-Grabá leyendo con `video.mp4` de fondo: los subtítulos marcan el ritmo.
-Para la versión final se usa `video-sin-subtitulos.mp4` + tu audio.
+La locución está generada con la voz de David en ElevenLabs (`locucion.mp3`).
+`video-voz.mp4` lleva subtítulos; `video-sin-subtitulos-voz.mp4`, no. Los tiempos de abajo son aproximados; los exactos están en `CAPTIONS`.
 
 | Tiempo | Locución |
 |---|---|
