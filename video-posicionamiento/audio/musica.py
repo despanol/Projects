@@ -2,7 +2,8 @@
 #   A: synthwave 112 BPM   B: house 120   C: beat urbano 92   D: boom bap 90   E: trap oscuro 140   F: bounce brillante 100
 import numpy as np, wave, os, sys
 OPT = (sys.argv[1] if len(sys.argv) > 1 else "A").upper()
-SR, DUR = 44100, 91.0
+E = os.environ
+SR, DUR = 44100, float(E.get('MUS_DUR', 91.0))
 N = int(SR * DUR); t = np.arange(N) / SR
 rng = np.random.default_rng(5)
 hz = lambda m: 440 * 2 ** ((m - 69) / 12)
@@ -45,7 +46,10 @@ def lvl(ts):
     if ts < 66.2: return 2
     if ts < 81.6: return 3
     return 4
-END = 88.0
+END = float(E.get('MUS_END', 88.0))
+if E.get('MUS_LVL'):  # recortes: "0:2,2.4:3" = nivel de energía desde cada segundo
+    _L = [tuple(map(float, x.split(':'))) for x in E['MUS_LVL'].split(',')]
+    lvl = lambda ts: int([v for a_, v in _L if ts >= a_][-1])
 
 if OPT == "A":
     BPM = 112; b = 60 / BPM; bar = 4 * b
@@ -176,6 +180,6 @@ mix = np.stack([L, R], 1)
 mix *= (np.minimum(1, t / .8) * np.minimum(1, (DUR - t) / 1.5))[:, None]
 mix = np.tanh(mix * 1.4) / 1.4
 mix /= np.abs(mix).max() / .85
-out = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"musica-{OPT}.wav")
+out = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"musica-{OPT}{E.get('MUS_TAG', '')}.wav")
 w = wave.open(out, "wb"); w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
 w.writeframes((mix * 32767).astype("<i2").tobytes()); w.close(); print(out)
