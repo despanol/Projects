@@ -1,5 +1,5 @@
 # Bases musicales sintetizadas. Uso: python3 audio/musica.py A|B|C  -> audio/musica-A.wav
-#   A: synthwave con empuje, 112 BPM   B: house luminoso, 120 BPM   C: beat urbano tech, 92 BPM
+#   A: synthwave 112 BPM   B: house 120   C: beat urbano 92   D: boom bap 90   E: trap oscuro 140   F: bounce brillante 100
 import numpy as np, wave, os, sys
 OPT = (sys.argv[1] if len(sys.argv) > 1 else "A").upper()
 SR, DUR = 44100, 91.0
@@ -90,6 +90,68 @@ elif OPT == "B":
             for s, m in ((0, 79), (.75, 76), (1.5, 74), (2.5, 76), (3, 72)):
                 add(ts + s * b, pluck(m, .8, .2, .06 if e >= 3 else .04, .6), .6)
     add(nb * bar, pad([60, 64, 67, 72, 76], 3.0, .06)); add(nb * bar, kick(.5)); add(nb * bar, saw(36, 3, 1.2, 6, .15))
+elif OPT == "D":  # boom bap tech, 90 BPM, con swing
+    BPM = 90; b = 60 / BPM; bar = 4 * b; sw = b * .08
+    CH = [[62, 65, 69, 72], [58, 62, 65, 69], [55, 58, 62, 65], [57, 61, 64, 67]]; RT = [38, 34, 31, 33]
+    nb = int(END / bar)
+    for k in range(nb):
+        ts = k * bar; e = lvl(ts); c = k % 4
+        for s in (.5, 2.5):  # acordes tipo rhodes a contratiempo
+            for i, m in enumerate(CH[c]): add(ts + s * b + sw, pluck(m, 1.3, .45, .035, .35), .35 + .1 * i)
+        if e == 1: add(ts, pad(CH[c], bar, .025))
+        if e >= 2:
+            for s in ((0, 1.75, 2.5) if e >= 3 else (0, 2.5)):
+                add(ts + s * b, kick(.55)); add(ts + s * b, saw(RT[c], b * .7, .22, 5, .17))
+            for s in (1, 3): add(ts + s * b, clap(.22))
+            for s in range(8): add(ts + s * b / 2 + (sw if s % 2 else 0), hat(.034 if s % 2 == 0 else .02, .025), .62)
+        if e >= 3:
+            add(ts + 3.75 * b, kick(.3)); add(ts + 1.5 * b + sw, hat(.03, .09), .4)
+            if k % 2 == 1:
+                for s, m in ((0, 74), (.5, 77), (1.5, 74), (2, 72), (3, 69)): add(ts + s * b, pluck(m, .9, .22, .06, .5), .58)
+    add(nb * bar, pad([62, 65, 69, 74], 3.0, .06)); add(nb * bar, sub808(26, 3, .3)); add(nb * bar, kick(.5))
+elif OPT == "E":  # trap oscuro, 140 BPM a medio tiempo
+    BPM = 140; b = 60 / BPM; bar = 4 * b
+    CH = [[57, 60, 64], [53, 57, 60], [50, 53, 57], [52, 56, 59]]; RT = [33, 29, 26, 28]
+    nb = int(END / bar)
+    for k in range(nb):
+        ts = k * bar; e = lvl(ts); c = (k // 2) % 4; odd = k % 2
+        if not odd: add(ts, pad([m + 12 for m in CH[c]], 2 * bar, .022))
+        for s in range(8):  # arpegio de campanas
+            m = CH[c][[0, 2, 1, 2, 0, 1, 2, 1][s]] + 24
+            add(ts + s * b / 2, pluck(m, .9, .2, .045 if e >= 2 else .032, .2), .35 + .3 * (s % 2))
+        if e >= 2:
+            pat = ((0, 1.6), (2.5, 1.2)) if not odd else ((0, .7), (.75, .6), (2.5, 1.3))
+            for s, d in pat: add(ts + s * b, sub808(RT[c] + (12 if (odd and s == .75) else 0), b * d, .32)); add(ts + s * b, kick(.5))
+            add(ts + 2 * b, clap(.24))
+            for s in range(8): add(ts + s * b / 2, hat(.03, .018), .6)
+        if e >= 3:
+            roll = (3, 8) if odd else (1.5, 4)
+            for s in range(roll[1]): add(ts + roll[0] * b + s * b / roll[1] * (1 if odd else .5), hat(.014 + .002 * s, .012), .3 + .05 * s)
+            add(ts + 3.5 * b, hat(.03, .1), .45)
+    add(nb * bar, pad([57, 60, 64, 69], 3.0, .06)); add(nb * bar, sub808(21, 3.2, .34)); add(nb * bar, kick(.55))
+elif OPT == "F":  # bounce brillante, 100 BPM, riff sincopado
+    BPM = 100; b = 60 / BPM; bar = 4 * b
+    CH = [[64, 67, 71], [60, 64, 67], [55, 59, 62], [62, 66, 69]]; RT = [40, 36, 31, 38]
+    RIFF = [0, None, 2, 1, None, 2, 0, None, 1, 2, None, 0, 2, None, 1, None]
+    nb = int(END / bar)
+    for k in range(nb):
+        ts = k * bar; e = lvl(ts); c = (k // 2) % 4
+        for s, i in enumerate(RIFF):  # riff percutivo en semicorcheas
+            if i is not None and (e >= 2 or s % 4 == 0): add(ts + s * b / 4, pluck(CH[c][i] + 12, .35, .07, .06, .8), .3 + .2 * (s % 3))
+        add(ts, pad(CH[c], bar, .02))
+        if e >= 2:
+            for s in ((0, .75, 2.5, 3.25) if e >= 3 else (0, 2.5)):
+                add(ts + s * b, kick(.52)); add(ts + s * b, sub808(RT[c], b * .6, .26))
+            for s in (1, 3): add(ts + s * b, clap(.2))
+            for q in range(4): add(ts + q * b + b / 2, hat(.04, .07), .6)
+        if e >= 3:
+            for s in range(16):
+                if s % 2: add(ts + s * b / 4, hat(.016, .014), .4)
+            if k % 4 == 3:
+                for s in range(6): add(ts + 3.25 * b + s * b / 8, hat(.02, .012), .3 + .07 * s)
+            if k % 2 == 0:
+                for s, m in ((0, 83), (1, 79), (1.5, 76), (2.5, 79), (3, 74)): add(ts + s * b, pluck(m, 1.0, .28, .05, .3), .6)
+    add(nb * bar, pad([64, 67, 71, 76], 3.0, .06)); add(nb * bar, sub808(28, 3, .3)); add(nb * bar, kick(.5))
 else:
     BPM = 92; b = 60 / BPM; bar = 4 * b
     CH = [[62, 65, 69, 72], [58, 62, 65, 69], [53, 57, 60, 65], [60, 64, 67, 70]]; RT = [38, 34, 29, 36]
