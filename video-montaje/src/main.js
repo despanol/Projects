@@ -519,7 +519,7 @@ const STEPS = [
   { t0: 4.2, t1: 6.2, start: T.db, title: 'Fuentes de datos', sub: 'SQL, Excel, extractos bancarios y sistemas contables, integrados en un solo lugar.',
     anchor: [-3.9, 1.7, -2.0], x: 1230, y: 330, w: 540, side: 'L', tag: [-3.9, 2.5, -2.0] },
   { t0: 7.7, t1: 11.3, start: T.recon, title: 'Conciliación bancaria', sub: 'Extracto contra libro mayor, partida por partida. Las diferencias aparecen solas.',
-    anchor: [-3.0, 0.5, 0.62], x: 110, y: 64, w: 1150, side: 'L', tag: [-3.0, 0.6, 1.9], noLeader: true },
+    anchor: [-3.0, 0.5, 0.62], x: 110, y: 128, w: 1150, side: 'L', tag: [-3.0, 0.6, 1.9], noLeader: true },
   { t0: 12.6, t1: 15.0, start: T.gears, title: 'Automatización', sub: 'Procesos en Python que corren solos: menos tareas manuales, menos errores.',
     anchor: [0.9, 0.75, -0.3], x: 1270, y: 300, w: 520, side: 'L', tag: [0.2, 0.9, 0] },
   { t0: 16.3, t1: 19.0, start: T.chart, title: 'Estadística', sub: 'Distribuciones, modelos e inferencia para respaldar cada conclusión.',
