@@ -4,8 +4,10 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { CONFIG } from './config.js';
 
 const W = 1920, H = 1080;
-export const DURATION = 36;
-const CAPTURE = new URLSearchParams(location.search).has('capture');
+export const DURATION = 38.5;
+const QS = new URLSearchParams(location.search);
+const CAPTURE = QS.has('capture');
+const CIERRE = QS.get('cierre') || CONFIG.cierre;
 
 // ---------- utilidades ----------
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
@@ -17,7 +19,7 @@ const easeOutBack = (p) => { const c = 1.6; return 1 + (c + 1) * Math.pow(p - 1,
 const fmt = (n, dec = 2) => n.toLocaleString('es-AR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
 
 const C = { bg: 0x0a0f1e, plate: 0x17223c, teal: 0x2dd4bf, blue: 0x4f8cff, amber: 0xfbbf24, green: 0x34d399 };
-const MONO = '"DejaVu Sans Mono", ui-monospace, Menlo, monospace';
+const MONO = '"JetBrains Mono", "DejaVu Sans Mono", ui-monospace, Menlo, monospace';
 const SANS = 'Inter, "Helvetica Neue", Arial, sans-serif';
 
 // ---------- escena ----------
@@ -105,7 +107,7 @@ function canvasTex(w, h) {
 function rrect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
 
 // ---------- tiempos ----------
-const T = { base: 1.0, db: 3.2, recon: 6.6, match: 8.3, gears: 11.6, chart: 15.1, term: 19.2, dash: 23.2, flow: 27.2, tags: 28.8, end: 31.2 };
+const T = { base: 1.0, db: 3.2, recon: 6.6, match: 8.3, gears: 11.6, chart: 15.1, term: 19.2, dash: 23.2, flow: 27.2, tags: 28.8, end: 31.2, brand: 33.7 };
 
 // ---------- 00 base ----------
 {
@@ -512,7 +514,7 @@ const STEPS = [
     anchor: [1.75, 2.0, -2.0], x: 120, y: 300, w: 520, side: 'R', tag: [3.0, 3.3, -2.0] },
   { t0: 20.3, t1: 23.0, start: T.term, title: 'Programación', sub: 'Código claro y reproducible en Python y SQL, hecho a medida.',
     anchor: [1.65, 1.5, 1.7], x: 120, y: 330, w: 500, side: 'R', tag: [3.1, 2.45, 1.7] },
-  { t0: 24.8, t1: 27.3, start: T.dash, title: 'Tableros', sub: 'Indicadores claros en Power BI para decidir con datos.',
+  { t0: 24.8, t1: 27.3, start: T.dash, title: 'Tableros', sub: 'Indicadores claros para decidir con datos, en un tablero hecho a medida.',
     anchor: [2.75, 4.6, -2.9], x: 1380, y: 330, w: 430, side: 'L', tag: [0, 6.25, -3.0] },
 ];
 const $ = (id) => document.getElementById(id);
@@ -530,13 +532,16 @@ STEPS.forEach((s, i) => {
   s.anchorV = new THREE.Vector3(...s.anchor); s.tagV = new THREE.Vector3(...s.tag);
 });
 $('intro').textContent = CONFIG.intro;
-$('brand').textContent = CONFIG.nombre;
+$('brand').textContent = CONFIG.marca.join(' · ');
 $('pips').innerHTML = `<span class="lbl"></span>` + STEPS.map(() => '<span class="pip"><i></i></span>').join('');
-$('end').innerHTML = `<div class="lema">${CONFIG.lema}</div><div class="rule"></div>
-  <div class="serv">${CONFIG.servicios.join('<span>·</span>')}</div>
-  ${CONFIG.nombre ? `<div class="nombre">${CONFIG.nombre}</div>` : ''}${CONFIG.contacto ? `<div class="contacto">${CONFIG.contacto}</div>` : ''}`;
+$('end').className = CIERRE;
+$('end').innerHTML = `<div class="blk a"><div class="lema">${CONFIG.lema}</div><div class="rule"></div>
+  <div class="serv">${CONFIG.servicios.join('<span>·</span>')}</div></div>
+  <div class="blk b"><div class="marca">${CONFIG.marca.join('<span>·</span>')}</div>
+  <div class="nombre">${CONFIG.nombre}</div><div class="rol">${CONFIG.rol}</div>
+  <div class="web">${CONFIG.web}<i>→</i></div></div>`;
 const pipEls = [...document.querySelectorAll('#pips .pip i')], pipLbl = document.querySelector('#pips .lbl');
-const endKids = [...$('end').children];
+const endA = document.querySelector('#end .a'), kidsA = [...endA.children], kidsB = [...document.querySelectorAll('#end .b > *')];
 
 function updateOverlay(t) {
   $('intro').style.opacity = Math.min(prog(t, 0.3, 0.6), 1 - prog(t, 2.3, 0.6));
@@ -566,10 +571,12 @@ function updateOverlay(t) {
   });
   pipLbl.textContent = `0${Math.max(1, cur)} / 06`;
   $('end').style.opacity = prog(t, T.end, 1.0);
-  endKids.forEach((el, i) => {
-    const k = prog(t, T.end + 0.4 + i * 0.28, 0.8);
+  const stagger = (els, t0) => els.forEach((el, i) => {
+    const k = prog(t, t0 + i * 0.26, 0.8);
     el.style.opacity = k; el.style.transform = `translateY(${(1 - easeOut(k)) * 26}px)`;
   });
+  stagger(kidsA, T.end + 0.4); stagger(kidsB, T.brand);
+  endA.style.opacity = 1 - prog(t, T.brand - 0.5, 0.4);
 }
 
 // ---------- cuadro ----------
@@ -590,4 +597,5 @@ if (!CAPTURE) {
   const loop = (now) => { renderFrame(((now - t0) / 1000) % (DURATION + 1.5)); requestAnimationFrame(loop); };
   requestAnimationFrame(loop);
 }
-document.fonts.ready.then(() => { renderFrame(0); window.READY = true; });
+const FONTS = ['400', '500', '600', '700'].map((w) => `${w} 20px Inter`).concat(['400', '700'].map((w) => `${w} 20px "JetBrains Mono"`));
+Promise.all(FONTS.map((f) => document.fonts.load(f))).catch(() => {}).then(() => { renderFrame(0); window.READY = true; });

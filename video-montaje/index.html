@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Montaje de una solución de datos</title>
 <style>
+  @font-face { font-family: Inter; font-weight: 400; src: url(fonts/inter-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: Inter; font-weight: 500; src: url(fonts/inter-latin-500-normal.woff2) format("woff2"); }
+  @font-face { font-family: Inter; font-weight: 600; src: url(fonts/inter-latin-600-normal.woff2) format("woff2"); }
+  @font-face { font-family: Inter; font-weight: 700; src: url(fonts/inter-latin-700-normal.woff2) format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url(fonts/jetbrains-mono-latin-700-normal.woff2) format("woff2"); }
   html, body { margin: 0; height: 100%; background: #05080f; overflow: hidden; }
   #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0;
            overflow: hidden; background: #0a0f1e; font-family: Inter, "Helvetica Neue", Arial, sans-serif; color: #e8eefb; }
@@ -15,28 +21,36 @@
   #leaders path { fill: none; stroke: #5eead4; stroke-width: 2; stroke-linejoin: round; }
   #leaders circle { fill: #5eead4; }
   .callout { position: absolute; opacity: 0; padding-left: 22px; border-left: 3px solid #2dd4bf; }
-  .callout .num { font: 600 20px "DejaVu Sans Mono", ui-monospace, monospace; color: #5eead4; letter-spacing: .14em; }
+  .callout .num { font: 600 20px "JetBrains Mono", "DejaVu Sans Mono", ui-monospace, monospace; color: #5eead4; letter-spacing: .14em; }
   .callout .title { font-weight: 650; font-size: 50px; line-height: 1.12; letter-spacing: -.02em; margin: 6px 0 10px; }
   .callout .sub { font-size: 24px; line-height: 1.4; color: #a9b8d6; }
   .tag { position: absolute; opacity: 0; white-space: nowrap; transform: translate(-50%, -100%);
          background: rgba(13,20,38,.86); border: 1px solid rgba(94,234,212,.5); border-radius: 999px;
          padding: 9px 20px 10px; font-size: 23px; font-weight: 600; }
-  .tag b { font: 600 17px "DejaVu Sans Mono", ui-monospace, monospace; color: #5eead4; margin-right: 10px; letter-spacing: .08em; }
+  .tag b { font: 600 17px "JetBrains Mono", "DejaVu Sans Mono", ui-monospace, monospace; color: #5eead4; margin-right: 10px; letter-spacing: .08em; }
   #intro { position: absolute; left: 0; right: 0; top: 150px; text-align: center; font-size: 58px; font-weight: 650;
            letter-spacing: -.02em; opacity: 0; }
   #pips { position: absolute; left: 110px; bottom: 70px; display: flex; align-items: center; gap: 10px; opacity: 0; }
-  #pips .lbl { font: 600 19px "DejaVu Sans Mono", ui-monospace, monospace; color: #8fa2c6; margin-right: 12px; letter-spacing: .1em; }
+  #pips .lbl { font: 600 19px "JetBrains Mono", "DejaVu Sans Mono", ui-monospace, monospace; color: #8fa2c6; margin-right: 12px; letter-spacing: .1em; }
   #pips .pip { width: 58px; height: 4px; border-radius: 2px; background: rgba(143,162,198,.25); overflow: hidden; }
   #pips .pip i { display: block; height: 100%; width: 0; background: #2dd4bf; }
   #brand { position: absolute; left: 110px; top: 64px; font-size: 22px; font-weight: 600; letter-spacing: .04em; color: #c9d5ee; opacity: 0; }
-  #end { position: absolute; inset: 0; opacity: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-         background: rgba(7,11,22,.8); text-align: center; }
+  #brand { font-family: "JetBrains Mono", monospace; font-size: 19px; letter-spacing: .12em; text-transform: uppercase; }
+  #end { position: absolute; inset: 0; opacity: 0; background: rgba(7,11,22,.84); --ac: #2dd4bf; --on: #04201c; }
+  #end.marca { background: rgba(9,9,11,.93); --ac: #00ff00; --on: #09090b; }
+  #end .blk { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  #end .blk > * { opacity: 0; }
   #end .lema { font-size: 92px; font-weight: 700; letter-spacing: -.03em; line-height: 1.05; }
-  #end .rule { width: 120px; height: 4px; background: #2dd4bf; border-radius: 2px; margin: 44px 0 40px; }
+  #end .rule { width: 120px; height: 4px; background: var(--ac); border-radius: 2px; margin: 44px 0 40px; }
   #end .serv { font-size: 30px; color: #b9c6e2; font-weight: 500; }
-  #end .serv span { color: #2dd4bf; margin: 0 16px; }
-  #end .nombre { margin-top: 64px; font-size: 40px; font-weight: 650; }
-  #end .contacto { margin-top: 12px; font-size: 26px; color: #5eead4; font-family: "DejaVu Sans Mono", ui-monospace, monospace; }
+  #end .serv span { color: var(--ac); margin: 0 16px; }
+  #end .marca { font: 700 34px "JetBrains Mono", monospace; letter-spacing: .2em; text-transform: uppercase; color: var(--ac); }
+  #end .marca span { margin: 0 18px; opacity: .55; }
+  #end .nombre { margin-top: 34px; font-size: 128px; font-weight: 700; letter-spacing: -.035em; line-height: 1; }
+  #end .rol { margin-top: 30px; font-size: 36px; font-weight: 500; color: #b9c6e2; }
+  #end .web { margin-top: 64px; background: var(--ac); color: var(--on); border-radius: 14px; padding: 20px 38px;
+              font: 700 42px "JetBrains Mono", monospace; }
+  #end .web i { font-style: normal; font-weight: 400; margin-left: 20px; }
 </style>
 <script type="importmap">
 { "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./node_modules/three/examples/jsm/" } }

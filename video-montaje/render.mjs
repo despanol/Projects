@@ -33,7 +33,7 @@ const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--ena
 const newPage = async () => {
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
   page.on('pageerror', (e) => { console.error('Error en la página:', e.message); process.exitCode = 1; });
-  await page.goto(`${url}?capture=1`);
+  await page.goto(`${url}?capture=1${opt('--cierre') ? `&cierre=${opt('--cierre')}` : ''}`);
   await page.waitForFunction('window.READY === true', null, { timeout: 60000 });
   return page;
 };
@@ -42,7 +42,7 @@ const shot = async (page, t, file) => {
   await page.screenshot({ path: file, type: 'jpeg', quality: 96 });
 };
 
-const stills = opt('--stills');
+const stills = opt('--stills'); const cierre = opt('--cierre');
 if (stills) {
   const dir = path.join(ROOT, 'out', 'stills'); fs.mkdirSync(dir, { recursive: true });
   const page = await newPage();
@@ -64,9 +64,9 @@ await Promise.all(pages.map(async (page) => {
 }));
 await browser.close(); server.close();
 
-const out = path.join(ROOT, 'out', 'montaje-datos.mp4');
+const out = path.join(ROOT, 'out', 'video-sin-audio.mp4');
 const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', path.join(frames, 'f%05d.jpg'),
   '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out], { stdio: 'inherit' });
 if (r.status !== 0) process.exit(1);
 fs.rmSync(frames, { recursive: true, force: true });
-console.log(`Listo: ${out}`);
+if (spawnSync('bash', [path.join(ROOT, 'audio', 'mezcla.sh')], { stdio: 'inherit' }).status !== 0) process.exit(1);
