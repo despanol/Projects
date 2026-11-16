@@ -1,9 +1,10 @@
 #!/bin/bash
-# Arma la pista de efectos y la monta sobre el video: out/video-sin-audio.mp4 -> out/montaje-datos.mp4
+# Arma la pista de efectos y la monta sobre el video: out/video-sin-audio$SUF.mp4 -> out/montaje-datos$SUF.mp4
 # Los efectos de audio/sfx son los mismos del video de posicionamiento (librería @remotion/sfx, remotion.media).
 # Los tiempos (en segundos) siguen la línea de tiempo `T` de src/main.js.
 set -e
 cd "$(dirname "$0")/.."
+SUF=$1   # '' u '-vertical'
 S=audio/sfx; IN=(); F=""; MIX=""; N=0
 sfx() { # archivo volumen_dB tiempos...
   local f=$1 v=$2; shift 2
@@ -23,9 +24,9 @@ sfx ding -21 22.35
 sfx whoosh -16 23.2 23.9;      sfx switch -8 24.0 25.0              # 06 tablero
 sfx whoosh -14 27.2;           sfx mouse-click -16 28.8 28.92 29.04 29.16 29.28 29.4   # flujo y etiquetas
 sfx whoosh -14 31.2 33.7;      sfx ding -13 34.5                    # lema y marca
-DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 out/video-sin-audio.mp4)
+DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 out/video-sin-audio$SUF.mp4)
 ffmpeg -y -loglevel error "${IN[@]}" -filter_complex "${F}${MIX}amix=inputs=${N}:normalize=0,alimiter=limit=0.89,apad[out]" \
   -map "[out]" -t "$DUR" -ac 2 -c:a pcm_s16le out/efectos.wav
-ffmpeg -y -loglevel error -i out/video-sin-audio.mp4 -i out/efectos.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -movflags +faststart out/montaje-datos.mp4
+ffmpeg -y -loglevel error -i out/video-sin-audio$SUF.mp4 -i out/efectos.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -movflags +faststart out/montaje-datos$SUF.mp4
 rm -f out/efectos.wav
-echo "Listo: out/montaje-datos.mp4"
+echo "Listo: out/montaje-datos$SUF.mp4"

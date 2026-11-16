@@ -1,5 +1,6 @@
 // Renderiza el video cuadro por cuadro con Chromium headless y lo codifica con ffmpeg.
 //   node render.mjs                 -> out/montaje-datos.mp4 (1920x1080, 30 fps)
+//   node render.mjs --formato vertical -> out/montaje-datos-vertical.mp4 (1080x1920)
 //   node render.mjs --stills 5,9.5  -> out/stills/*.jpg en esos segundos (para revisar)
 //   node render.mjs --serve         -> solo levanta el servidor para ver la animación en el navegador
 import http from 'node:http';
@@ -12,6 +13,7 @@ import { createRequire } from 'node:module';
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 const opt = (name) => { const i = args.indexOf(name); return i < 0 ? null : args[i + 1] ?? true; };
+const VERT = opt('--formato') === 'vertical', SUF = VERT ? '-vertical' : '';
 const FPS = 30, WORKERS = Number(opt('--workers') || 4);
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json' };
 
@@ -31,9 +33,9 @@ if (opt('--serve')) { console.log(`Vista previa: ${url}`); await new Promise(() 
 const { chromium } = createRequire(import.meta.url)('playwright');
 const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 const newPage = async () => {
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
+  const page = await browser.newPage({ viewport: VERT ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
   page.on('pageerror', (e) => { console.error('Error en la página:', e.message); process.exitCode = 1; });
-  await page.goto(`${url}?capture=1${opt('--cierre') ? `&cierre=${opt('--cierre')}` : ''}`);
+  await page.goto(`${url}?capture=1${VERT ? '&formato=vertical' : ''}${opt('--cierre') ? `&cierre=${opt('--cierre')}` : ''}`);
   await page.waitForFunction('window.READY === true', null, { timeout: 60000 });
   return page;
 };
@@ -46,11 +48,11 @@ const stills = opt('--stills'); const cierre = opt('--cierre');
 if (stills) {
   const dir = path.join(ROOT, 'out', 'stills'); fs.mkdirSync(dir, { recursive: true });
   const page = await newPage();
-  for (const s of String(stills).split(',')) { await shot(page, Number(s), path.join(dir, `t${Number(s).toFixed(1).padStart(4, '0')}.jpg`)); console.log('still', s); }
+  for (const s of String(stills).split(',')) { await shot(page, Number(s), path.join(dir, `t${Number(s).toFixed(1).padStart(4, '0')}${SUF}.jpg`)); console.log('still', s); }
   await browser.close(); server.close(); process.exit();
 }
 
-const frames = path.join(ROOT, 'out', 'frames');
+const frames = path.join(ROOT, 'out', `frames${SUF}`);
 fs.rmSync(frames, { recursive: true, force: true }); fs.mkdirSync(frames, { recursive: true });
 const pages = await Promise.all(Array.from({ length: WORKERS }, newPage));
 const total = Math.round((await pages[0].evaluate('window.DURATION')) * FPS);
@@ -64,9 +66,9 @@ await Promise.all(pages.map(async (page) => {
 }));
 await browser.close(); server.close();
 
-const out = path.join(ROOT, 'out', 'video-sin-audio.mp4');
+const out = path.join(ROOT, 'out', `video-sin-audio${SUF}.mp4`);
 const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', path.join(frames, 'f%05d.jpg'),
   '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out], { stdio: 'inherit' });
 if (r.status !== 0) process.exit(1);
 fs.rmSync(frames, { recursive: true, force: true });
-if (spawnSync('bash', [path.join(ROOT, 'audio', 'mezcla.sh')], { stdio: 'inherit' }).status !== 0) process.exit(1);
+if (spawnSync('bash', [path.join(ROOT, 'audio', 'mezcla.sh'), SUF], { stdio: 'inherit' }).status !== 0) process.exit(1);

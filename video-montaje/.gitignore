@@ -1,4 +1,4 @@
 node_modules/
-out/frames/
+out/frames*/
 out/stills/
-out/video-sin-audio.mp4
+out/video-sin-audio*.mp4

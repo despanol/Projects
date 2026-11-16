@@ -3,9 +3,10 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { CONFIG } from './config.js';
 
-const W = 1920, H = 1080;
-export const DURATION = 38.5;
 const QS = new URLSearchParams(location.search);
+const VERT = QS.get('formato') === 'vertical';
+const W = VERT ? 1080 : 1920, H = VERT ? 1920 : 1080;
+export const DURATION = 38.5;
 const CAPTURE = QS.has('capture');
 const CIERRE = QS.get('cierre') || CONFIG.cierre;
 
@@ -34,11 +35,11 @@ renderer.toneMappingExposure = 1.05;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(C.bg);
-scene.fog = new THREE.Fog(C.bg, 26, 70);
+scene.fog = VERT ? new THREE.Fog(C.bg, 42, 100) : new THREE.Fog(C.bg, 26, 70);
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environmentIntensity = 0.45;
 
-const camera = new THREE.PerspectiveCamera(28, W / H, 0.1, 200);
+const camera = new THREE.PerspectiveCamera(VERT ? 40 : 28, W / H, 0.1, 300);
 
 scene.add(new THREE.HemisphereLight(0x9db8ff, 0x0b1020, 0.55));
 const key = new THREE.DirectionalLight(0xffffff, 2.4);
@@ -479,7 +480,7 @@ const DS = new THREE.Vector3(0, 4.5, -3.0);
 
 // ---------- cámara ----------
 // [t, tx, ty, tz, radio, azimut°, elevación°]
-const CAM = [
+const CAM_H = [
   [0.0, 0, 0.6, 0, 20, 34, 30], [2.9, 0, 0.5, 0, 17.5, 30, 30],
   [4.1, -3.4, 1.3, -1.4, 10.5, 38, 25], [6.1, -3.4, 1.3, -1.4, 10.0, 42, 25],
   [7.5, -3.6, 0.4, 1.65, 8.9, 5, 60], [11.2, -3.6, 0.4, 1.65, 8.5, 9, 60],
@@ -489,6 +490,17 @@ const CAM = [
   [24.6, 1.5, 3.7, -2.2, 12.6, 8, 9], [27.2, 1.5, 3.7, -2.2, 12.2, 4, 9],
   [29.2, 0, 2.5, -0.4, 19.5, 24, 19], [DURATION, 0, 2.5, -0.4, 18.6, 44, 19],
 ];
+const CAM_V = [
+  [0.0, 0, 1.2, 0, 36, 30, 28], [2.9, 0, 1.0, 0, 32, 26, 28],
+  [4.1, -3.9, 1.9, -2.0, 13.5, 38, 22], [6.1, -3.9, 1.9, -2.0, 13.0, 42, 22],
+  [7.5, -3.0, 0.4, 1.15, 13.9, 3, 62], [11.2, -3.0, 0.4, 1.15, 13.5, 7, 62],
+  [12.5, 0.2, 1.5, -0.3, 11.0, 28, 45], [14.9, 0.2, 1.5, -0.3, 10.5, 34, 43],
+  [16.2, 3.0, 2.7, -2.0, 12.5, -18, 18], [18.9, 3.0, 2.7, -2.0, 12.0, -13, 18],
+  [20.2, 3.1, 2.5, 1.9, 10.8, -14, 16], [22.9, 3.1, 2.5, 1.9, 10.4, -9, 16],
+  [24.6, 0, 4.7, -3.0, 16.0, 5, 8], [27.2, 0, 4.7, -3.0, 15.5, 1, 8],
+  [29.2, 0, 3.2, -0.4, 34, 12, 22], [DURATION, 0, 3.2, -0.4, 33, 28, 22],
+];
+const CAM = VERT ? CAM_V : CAM_H;
 function updateCamera(t) {
   let i = 0; while (i < CAM.length - 2 && t > CAM[i + 1][0]) i++;
   const a = CAM[i], b = CAM[i + 1];
@@ -519,6 +531,13 @@ const STEPS = [
 ];
 const $ = (id) => document.getElementById(id);
 const NS = 'http://www.w3.org/2000/svg';
+if (VERT) {
+  const tagsV = { 1: [-2.4, 0.5, 3.5], 4: [4.3, 0.5, 3.4] };
+  STEPS.forEach((s, i) => Object.assign(s, { x: 80, y: 270, w: 900, noLeader: true, tag: tagsV[i] || s.tag }));
+}
+$('stage').classList.toggle('vertical', VERT);
+for (const el of [$('stage'), canvas]) { el.style.width = `${W}px`; el.style.height = `${H}px`; }
+$('leaders').setAttribute('width', W); $('leaders').setAttribute('height', H);
 STEPS.forEach((s, i) => {
   const el = document.createElement('div'); el.className = 'callout';
   el.style.cssText = `left:${s.x}px;top:${s.y}px;width:${s.w}px`;
@@ -536,7 +555,7 @@ $('brand').textContent = CONFIG.marca.join(' · ');
 $('pips').innerHTML = `<span class="lbl"></span>` + STEPS.map(() => '<span class="pip"><i></i></span>').join('');
 $('end').className = CIERRE;
 $('end').innerHTML = `<div class="blk a"><div class="lema">${CONFIG.lema}</div><div class="rule"></div>
-  <div class="serv">${CONFIG.servicios.join('<span>·</span>')}</div></div>
+  <div class="serv">${CONFIG.servicios.map((x) => `<em>${x}</em>`).join('<span>·</span>')}</div></div>
   <div class="blk b"><div class="marca">${CONFIG.marca.join('<span>·</span>')}</div>
   <div class="nombre">${CONFIG.nombre}</div><div class="rol">${CONFIG.rol}</div>
   <div class="web">${CONFIG.web}<i>→</i></div></div>`;
