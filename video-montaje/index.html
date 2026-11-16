@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Montaje de una solución de datos</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #05080f; overflow: hidden; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0;
+           overflow: hidden; background: #0a0f1e; font-family: Inter, "Helvetica Neue", Arial, sans-serif; color: #e8eefb; }
+  #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+  #vignette { position: absolute; inset: 0; pointer-events: none;
+              background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(3,5,12,.62) 100%); }
+  #leaders { position: absolute; inset: 0; pointer-events: none; }
+  #leaders path { fill: none; stroke: #5eead4; stroke-width: 2; stroke-linejoin: round; }
+  #leaders circle { fill: #5eead4; }
+  .callout { position: absolute; opacity: 0; padding-left: 22px; border-left: 3px solid #2dd4bf; }
+  .callout .num { font: 600 20px "DejaVu Sans Mono", ui-monospace, monospace; color: #5eead4; letter-spacing: .14em; }
+  .callout .title { font-weight: 650; font-size: 50px; line-height: 1.12; letter-spacing: -.02em; margin: 6px 0 10px; }
+  .callout .sub { font-size: 24px; line-height: 1.4; color: #a9b8d6; }
+  .tag { position: absolute; opacity: 0; white-space: nowrap; transform: translate(-50%, -100%);
+         background: rgba(13,20,38,.86); border: 1px solid rgba(94,234,212,.5); border-radius: 999px;
+         padding: 9px 20px 10px; font-size: 23px; font-weight: 600; }
+  .tag b { font: 600 17px "DejaVu Sans Mono", ui-monospace, monospace; color: #5eead4; margin-right: 10px; letter-spacing: .08em; }
+  #intro { position: absolute; left: 0; right: 0; top: 150px; text-align: center; font-size: 58px; font-weight: 650;
+           letter-spacing: -.02em; opacity: 0; }
+  #pips { position: absolute; left: 110px; bottom: 70px; display: flex; align-items: center; gap: 10px; opacity: 0; }
+  #pips .lbl { font: 600 19px "DejaVu Sans Mono", ui-monospace, monospace; color: #8fa2c6; margin-right: 12px; letter-spacing: .1em; }
+  #pips .pip { width: 58px; height: 4px; border-radius: 2px; background: rgba(143,162,198,.25); overflow: hidden; }
+  #pips .pip i { display: block; height: 100%; width: 0; background: #2dd4bf; }
+  #brand { position: absolute; left: 110px; top: 64px; font-size: 22px; font-weight: 600; letter-spacing: .04em; color: #c9d5ee; opacity: 0; }
+  #end { position: absolute; inset: 0; opacity: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+         background: rgba(7,11,22,.8); text-align: center; }
+  #end .lema { font-size: 92px; font-weight: 700; letter-spacing: -.03em; line-height: 1.05; }
+  #end .rule { width: 120px; height: 4px; background: #2dd4bf; border-radius: 2px; margin: 44px 0 40px; }
+  #end .serv { font-size: 30px; color: #b9c6e2; font-weight: 500; }
+  #end .serv span { color: #2dd4bf; margin: 0 16px; }
+  #end .nombre { margin-top: 64px; font-size: 40px; font-weight: 650; }
+  #end .contacto { margin-top: 12px; font-size: 26px; color: #5eead4; font-family: "DejaVu Sans Mono", ui-monospace, monospace; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./node_modules/three/examples/jsm/" } }
+</script>
+</head>
+<body>
+<div id="stage">
+  <canvas id="gl" width="1920" height="1080"></canvas>
+  <div id="vignette"></div>
+  <svg id="leaders" width="1920" height="1080"></svg>
+  <div id="labels"></div>
+  <div id="intro"></div>
+  <div id="brand"></div>
+  <div id="pips"></div>
+  <div id="end"></div>
+</div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
